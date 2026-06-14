@@ -8,6 +8,7 @@ from motor import motor_asyncio
 from mongo import User
 
 from .routers import user as user_router
+from .routers import prediction as predict_router
 
 
 settings = BaseConfig()
@@ -43,6 +44,7 @@ app.add_middleware(
 )
 
 app.include_router(user_router.router, prefix="/users", tags=["users"])
+app.include_router(predict_router.router, prefix="/predict", tags=["predict"])
 
 
 @app.get("/", tags=["Root"])
