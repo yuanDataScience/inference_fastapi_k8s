@@ -1,0 +1,6 @@
+datasets/
+**/.ipynb_checkpoints/
+**/*.ipynb
+**/*.env
+**/__pycache__/
+**/mappings/

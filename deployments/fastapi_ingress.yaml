@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fastapi-ingress
+  namespace: farm2
+  labels:
+    app.kubernetes.io/name: fastapi-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: app.local
+    http:
+      paths:
+      - pathType: Prefix
+        path: /fastapi2
+        backend:
+          service:
+            name: fastapi-app
+            port: 
+              number: 8000
