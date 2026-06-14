@@ -7,3 +7,13 @@ pydantic_core==2.33.2
 pydantic-settings==2.10.1
 uvicorn==0.35.0
 gunicorn==23.0.0
+
+beanie==2.0.0
+openpyxl==3.1.5
+PyJWT==2.8.0
+pymongo==4.14.1
+passlib==1.7.4
+motor==3.7.1
+bcrypt==4.0.1
+
+
