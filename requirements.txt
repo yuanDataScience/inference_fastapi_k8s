@@ -7,6 +7,7 @@ pydantic_core==2.33.2
 pydantic-settings==2.10.1
 uvicorn==0.35.0
 gunicorn==23.0.0
+scikit-learn==1.7.2
 
 beanie==2.0.0
 openpyxl==3.1.5
@@ -15,5 +16,9 @@ pymongo==4.14.1
 passlib==1.7.4
 motor==3.7.1
 bcrypt==4.0.1
+mlflow==3.10.1
+boto3== 1.42.89
+anyio
+category_encoders
 
 

@@ -1,11 +1,13 @@
 from contextlib import asynccontextmanager
 from beanie import init_beanie
+from predictive_models import load_model
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .config import BaseConfig
 from motor import motor_asyncio
 from mongo import User
+import anyio
 
 from .routers import user as user_router
 from .routers import prediction as predict_router
@@ -28,6 +30,15 @@ async def lifespan(app: FastAPI):
         print("Beanie models initialized")
     except Exception as e:
         print(e)
+
+    try:
+        # Offload the blocking sync MLflow call to a separate worker thread
+        app.state.model = await anyio.to_thread.run_sync(load_model)
+    except Exception as e:
+        print(f"Critical Error: Could not load the MLflow model during startup: {e}")
+        # Depending on your deployment preference, you can choose to let the app crash
+        # or assign None so the app still runs other routes (e.g., /users)
+        app.state.model = None
     yield
     app.client.close()
 

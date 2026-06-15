@@ -1,0 +1,15 @@
+{
+  "workclass": "Private",
+  "marital_status": "Married-civ-spouse",
+  "occupation": "Craft-repair",
+  "relationship": "Husband",
+  "native_country": "United-States",
+  "race": "White",
+  "sex": "Male",
+  "age": 38,
+  "fnlwgt": 159179,
+  "education_num": 9,
+  "capital_gain": 0,
+  "capital_loss": 0,
+  "hours_per_week": 40
+}
