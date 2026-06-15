@@ -10,8 +10,11 @@ router = APIRouter()
 
 @router.post("/", response_model=PredictOutput, status_code=status.HTTP_200_OK)
 def make_prediction(request: Request, data: InputFeatures = Body(...)):
+
     # Retrieve the single in-memory model pointer from app.state
     model = getattr(request.app.state, "model", None)
+    version = getattr(request.app.state, "model_version", "unknown")
+    git_sha = getattr(request.app.state, "git_sha", "unknown")
 
     if model is None:
         raise HTTPException(
@@ -32,12 +35,13 @@ def make_prediction(request: Request, data: InputFeatures = Body(...)):
         input_df = pd.DataFrame([input_dict])
 
         # Execute the prediction directly on the main thread pool worker
-        prediction = model.predict(input_df)[0]
-        prediction_rs = False if prediction == 0 else True
-
-
-        # Return the prediction result
-        return {"prediction": prediction_rs}
+        prediction = model.predict(input_df)
+        # Return the prediction accompanied by the active model version metadata
+        return {
+            "prediction": [False if pred == 0 else True for pred in prediction.tolist()],
+            "version": version,
+            "git_sha": git_sha
+        }
 
     except Exception as e:
         raise HTTPException(

@@ -33,12 +33,16 @@ async def lifespan(app: FastAPI):
 
     try:
         # Offload the blocking sync MLflow call to a separate worker thread
-        app.state.model = await anyio.to_thread.run_sync(load_model)
+        model, version, git_sha = await anyio.to_thread.run_sync(load_model)
+        app.state.model = model
+        app.state.model_version = version
+        app.state.git_sha = git_sha
     except Exception as e:
         print(f"Critical Error: Could not load the MLflow model during startup: {e}")
         # Depending on your deployment preference, you can choose to let the app crash
         # or assign None so the app still runs other routes (e.g., /users)
         app.state.model = None
+        app.state.model_version ="Unavailable"
     yield
     app.client.close()
 
