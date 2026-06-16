@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - fastapi_deploy.yaml
+  - fastapi_service.yaml
+  - namespace.yaml
+
+namespace: fastapi-inference
+
+configMapGenerator:
+  - name: env-config
+    envs:
+      - config.env
+
+secretGenerator:
+  - name: fastapi-secret
+    envs:
+      - secret.env
+    type: Opaque  

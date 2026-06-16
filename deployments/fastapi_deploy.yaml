@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fastapi-app
-  namespace: farm2
   labels:
     app: fastapi-app
 spec:
@@ -16,7 +15,7 @@ spec:
     spec:
       containers:
       - name: fastapi-app
-        image: huangyuan2000/fastapi-demo:v1
+        image: huangyuan2000/fastapi-inference:v1
         resources:
           requests:
             memory: "128Mi"
@@ -25,34 +24,13 @@ spec:
             memory: "1Gi"
             cpu: "500m"
         env:
-        - name: TOKEN_SECRET
-          valueFrom:
-            secretKeyRef:
-              key: TOKEN_SECRET
-              name: fastapi-secret
-        - name: AWS_DEFAULT_REGION
-          valueFrom:
-            secretKeyRef:
-              key: AWS_DEFAULT_REGION
-              name: fastapi-secret
-        - name: AWS_ACCESS_KEY_ID
-          valueFrom:
-            secretKeyRef:
-              key: AWS_ACCESS_KEY_ID
-              name: fastapi-secret
-        - name: AWS_SECRET_ACCESS_KEY
-          valueFrom:
-            secretKeyRef:
-              key: AWS_SECRET_ACCESS_KEY
-              name: fastapi-secret
-        - name: DB_URL
-          valueFrom:
-            secretKeyRef:
-              key: DB_URL
-              name: fastapi-secret
+        - name: PYTHONUNBUFFERED         # FORCE Python to output prints instantly to kubectl logs
+          value: "1"
         envFrom:
         - configMapRef:
-            name: env-config    
+            name: env-config
+        - secretRef:               # <--- This automatically parses the entire secret!
+            name: fastapi-secret        
         ports:
         - containerPort: 8000
 
