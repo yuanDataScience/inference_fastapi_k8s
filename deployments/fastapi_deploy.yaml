@@ -29,9 +29,33 @@ spec:
           valueFrom:
             secretKeyRef:
               key: TOKEN_SECRET
-              name: farm-token-secret
+              name: fastapi-secret
+        - name: AWS_DEFAULT_REGION
+          valueFrom:
+            secretKeyRef:
+              key: AWS_DEFAULT_REGION
+              name: fastapi-secret
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              key: AWS_ACCESS_KEY_ID
+              name: fastapi-secret
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              key: AWS_SECRET_ACCESS_KEY
+              name: fastapi-secret
+        - name: DB_URL
+          valueFrom:
+            secretKeyRef:
+              key: DB_URL
+              name: fastapi-secret
         envFrom:
         - configMapRef:
             name: env-config    
         ports:
         - containerPort: 8000
+
+
+
+
