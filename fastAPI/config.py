@@ -17,5 +17,5 @@ class BaseConfig(BaseSettings):
 
     """Loads the dotenv file. Including this is necessary to get
     pydantic to load a .env file."""
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
-    # model_config = SettingsConfigDict(extra="ignore")
+    # model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    model_config = SettingsConfigDict(extra="ignore")
